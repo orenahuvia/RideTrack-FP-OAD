@@ -26,12 +26,20 @@ namespace RideTrack_FP_OAD.DAL
                 reader= command.ExecuteReader(CommandBehavior.CloseConnection);
                 while (reader.Read())
                 {
-                    entries.Add (new Entries {
-                        EntryId = Convert.ToInt32(reader["EntryId"].ToString()),
-                        RiderId = Convert.ToInt32(reader["RiderId"].ToString()),
-                        HorseId = Convert.ToInt32(reader["HorseId"].ToString()),
-                        PayerId = Convert.ToInt32(reader["PayerId"].ToString()),
-                        ClassId = Convert.ToInt32(reader["ClassId"].ToString()) 
+                    entries.Add(new Entries
+                    {
+                        EntryId = Convert.ToInt32(reader["EntryId"]),
+                        RiderId = Convert.ToInt32(reader["RiderId"]),
+                        HorseId = Convert.ToInt32(reader["HorseId"]),
+                        PayerId = Convert.ToInt32(reader["PayerId"]),
+                        ClassId = Convert.ToInt32(reader["ClassId"]),
+                        RiderName = reader["RiderName"].ToString(),
+                        HorseName = reader["HorseName"].ToString(),
+                        PayerName = reader["PayerName"].ToString(),
+                        CompetitionName = reader["CompetitionName"].ToString(),
+                        ClassName = reader["ClassName"].ToString(),
+                        ClassDay = Convert.ToDateTime(reader["ClassDay"]),
+                        ClassPrice = Convert.ToDecimal(reader["ClassPrice"])
                     });
                 }
                 return entries;

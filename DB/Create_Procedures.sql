@@ -6,11 +6,15 @@ go
    ====================================== */
 
 -- פרוצדורה לקבלת כל ההרשמות למקצים
-CREATE PROCEDURE GetAllEntries
+ALTER PROCEDURE GetAllEntries
 AS
 BEGIN
     SELECT 
         E.EntryId,
+        E.RiderId,
+        E.HorseId,
+        E.PayerId,
+        E.ClassId,
         R.RiderName,
         H.HorseName,
         P.PayerName,
@@ -26,7 +30,8 @@ BEGIN
     INNER JOIN Competitions C  ON CL.CompetitionId = C.CompetitionId
     ORDER BY E.EntryId;
 END
-go
+GO
+
 
 -- פרוצדורה לקבלת כל ההרשמות של משלם מסוים
 CREATE PROCEDURE GetEntriesByPayerName

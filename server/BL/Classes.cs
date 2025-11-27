@@ -6,6 +6,6 @@
         public int CompetitionId { get; set; }
         public DateTime ClassDay { get; set; }
         public string ClassName { get; set; }
-        public double ClassPrice { get; set; }
+        public Decimal ClassPrice { get; set; }
     }
 }
