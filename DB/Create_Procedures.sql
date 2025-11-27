@@ -1,12 +1,40 @@
-use [RideTrack-FP-OAD];
-go
+USE [RideTrack-FP-OAD];
+GO
+
+/* ======================================
+   DROP כל הפרוצדורות אם קיימות
+   ====================================== */
+IF OBJECT_ID('dbo.GetAllEntries', 'P') IS NOT NULL DROP PROCEDURE dbo.GetAllEntries;
+IF OBJECT_ID('dbo.GetEntriesByPayerName', 'P') IS NOT NULL DROP PROCEDURE dbo.GetEntriesByPayerName;
+IF OBJECT_ID('dbo.AddEntry', 'P') IS NOT NULL DROP PROCEDURE dbo.AddEntry;
+IF OBJECT_ID('dbo.UpdateEntry', 'P') IS NOT NULL DROP PROCEDURE dbo.UpdateEntry;
+IF OBJECT_ID('dbo.DeleteEntry', 'P') IS NOT NULL DROP PROCEDURE dbo.DeleteEntry;
+
+IF OBJECT_ID('dbo.GetAllStalls', 'P') IS NOT NULL DROP PROCEDURE dbo.GetAllStalls;
+IF OBJECT_ID('dbo.GetStallsByPayerName', 'P') IS NOT NULL DROP PROCEDURE dbo.GetStallsByPayerName;
+IF OBJECT_ID('dbo.AddStall', 'P') IS NOT NULL DROP PROCEDURE dbo.AddStall;
+IF OBJECT_ID('dbo.UpdateStall', 'P') IS NOT NULL DROP PROCEDURE dbo.UpdateStall;
+IF OBJECT_ID('dbo.DeleteStall', 'P') IS NOT NULL DROP PROCEDURE dbo.DeleteStall;
+
+IF OBJECT_ID('dbo.GetAllShavingsOrders', 'P') IS NOT NULL DROP PROCEDURE dbo.GetAllShavingsOrders;
+IF OBJECT_ID('dbo.GetShavingsOrdersByPayerName', 'P') IS NOT NULL DROP PROCEDURE dbo.GetShavingsOrdersByPayerName;
+IF OBJECT_ID('dbo.AddShavingsOrder', 'P') IS NOT NULL DROP PROCEDURE dbo.AddShavingsOrder;
+IF OBJECT_ID('dbo.UpdateShavingsOrder', 'P') IS NOT NULL DROP PROCEDURE dbo.UpdateShavingsOrder;
+IF OBJECT_ID('dbo.DeleteShavingsOrder', 'P') IS NOT NULL DROP PROCEDURE dbo.DeleteShavingsOrder;
+
+IF OBJECT_ID('dbo.GetAllPaidTimes', 'P') IS NOT NULL DROP PROCEDURE dbo.GetAllPaidTimes;
+IF OBJECT_ID('dbo.GetPaidTimesByPayerName', 'P') IS NOT NULL DROP PROCEDURE dbo.GetPaidTimesByPayerName;
+IF OBJECT_ID('dbo.AddPaidTime', 'P') IS NOT NULL DROP PROCEDURE dbo.AddPaidTime;
+IF OBJECT_ID('dbo.UpdatePaidTime', 'P') IS NOT NULL DROP PROCEDURE dbo.UpdatePaidTime;
+IF OBJECT_ID('dbo.DeletePaidTime', 'P') IS NOT NULL DROP PROCEDURE dbo.DeletePaidTime;
+GO
 
 /* ======================================
    ENTRIES - הרשמות למקצים
    ====================================== */
 
 -- פרוצדורה לקבלת כל ההרשמות למקצים
-ALTER PROCEDURE GetAllEntries
+CREATE PROCEDURE dbo.GetAllEntries
 AS
 BEGIN
     SELECT 
@@ -32,14 +60,17 @@ BEGIN
 END
 GO
 
-
 -- פרוצדורה לקבלת כל ההרשמות של משלם מסוים
-CREATE PROCEDURE GetEntriesByPayerName
+CREATE PROCEDURE dbo.GetEntriesByPayerName
     @PayerName NVARCHAR(100)
 AS
 BEGIN
     SELECT 
         E.EntryId,
+        E.RiderId,
+        E.HorseId,
+        E.PayerId,
+        E.ClassId,
         R.RiderName,
         H.HorseName,
         P.PayerName,
@@ -56,10 +87,10 @@ BEGIN
     WHERE P.PayerName = @PayerName
     ORDER BY E.EntryId;
 END
-go
+GO
 
 -- פרוצדורה להוספת הרשמה למקצה
-CREATE PROCEDURE AddEntry
+CREATE PROCEDURE dbo.AddEntry
     @RiderId INT,
     @HorseId INT,
     @PayerId INT,
@@ -71,10 +102,10 @@ BEGIN
 
     SELECT SCOPE_IDENTITY() AS NewEntryId;
 END
-go
+GO
 
 -- פרוצדורה לעדכון הרשמה למקצה
-CREATE PROCEDURE UpdateEntry
+CREATE PROCEDURE dbo.UpdateEntry
     @EntryId INT,
     @RiderId INT,
     @HorseId INT,
@@ -91,10 +122,10 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 -- פרוצדורה למחיקת הרשמה למקצה
-CREATE PROCEDURE DeleteEntry
+CREATE PROCEDURE dbo.DeleteEntry
     @EntryId INT
 AS
 BEGIN
@@ -103,18 +134,21 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 /* ======================================
    STALLS - הזמנת תאים
    ====================================== */
 
 -- פרוצדורה לקבלת כל התאים
-CREATE PROCEDURE GetAllStalls
+CREATE PROCEDURE dbo.GetAllStalls
 AS
 BEGIN
     SELECT 
         S.StallId,
+        S.CompetitionId,
+        S.HorseId,
+        S.PayerId,
         S.StallNumber,
         S.ArrivalDate,
         S.DepartureDate,
@@ -129,15 +163,18 @@ BEGIN
     INNER JOIN Competitions C ON S.CompetitionId = C.CompetitionId
     ORDER BY S.StallId;
 END
-go
+GO
 
 -- פרוצדורה לקבלת כל התאים של משלם מסוים
-CREATE PROCEDURE GetStallsByPayerName
+CREATE PROCEDURE dbo.GetStallsByPayerName
     @PayerName NVARCHAR(100)
 AS
 BEGIN
     SELECT 
         S.StallId,
+        S.CompetitionId,
+        S.HorseId,
+        S.PayerId,
         S.StallNumber,
         S.ArrivalDate,
         S.DepartureDate,
@@ -153,10 +190,10 @@ BEGIN
     WHERE P.PayerName = @PayerName
     ORDER BY S.StallId;
 END
-go
+GO
 
 -- פרוצדורה להוספת תא
-CREATE PROCEDURE AddStall
+CREATE PROCEDURE dbo.AddStall
     @CompetitionId INT,
     @HorseId       INT,
     @PayerId       INT,
@@ -174,10 +211,10 @@ BEGIN
 
     SELECT SCOPE_IDENTITY() AS NewStallId;
 END
-go
+GO
 
 -- פרוצדורה לעדכון תא
-CREATE PROCEDURE UpdateStall
+CREATE PROCEDURE dbo.UpdateStall
     @StallId       INT,
     @CompetitionId INT,
     @HorseId       INT,
@@ -202,10 +239,10 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 -- פרוצדורה למחיקת תא
-CREATE PROCEDURE DeleteStall
+CREATE PROCEDURE dbo.DeleteStall
     @StallId INT
 AS
 BEGIN
@@ -214,18 +251,19 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 /* ======================================
    SHAVINGSORDERS - הזמנות נסורת
    ====================================== */
 
 -- פרוצדורה לקבלת כל הזמנות הנסורת
-CREATE PROCEDURE GetAllShavingsOrders
+CREATE PROCEDURE dbo.GetAllShavingsOrders
 AS
 BEGIN
     SELECT 
         SO.ShavingsOrderId,
+        SO.StallId,
         SO.OrderDate,
         SO.BagsQuantity,
         SO.PricePerBag,
@@ -241,15 +279,16 @@ BEGIN
     INNER JOIN Competitions C ON S.CompetitionId  = C.CompetitionId
     ORDER BY SO.ShavingsOrderId;
 END
-go
+GO
 
 -- פרוצדורה לקבלת כל הזמנות הנסורת של משלם מסוים
-CREATE PROCEDURE GetShavingsOrdersByPayerName
+CREATE PROCEDURE dbo.GetShavingsOrdersByPayerName
     @PayerName NVARCHAR(100)
 AS
 BEGIN
     SELECT 
         SO.ShavingsOrderId,
+        SO.StallId,
         SO.OrderDate,
         SO.BagsQuantity,
         SO.PricePerBag,
@@ -266,10 +305,10 @@ BEGIN
     WHERE P.PayerName = @PayerName
     ORDER BY SO.ShavingsOrderId;
 END
-go
+GO
 
 -- פרוצדורה להוספת הזמנת נסורת
-CREATE PROCEDURE AddShavingsOrder
+CREATE PROCEDURE dbo.AddShavingsOrder
     @StallId      INT,
     @OrderDate    DATETIME,
     @BagsQuantity INT,
@@ -284,10 +323,10 @@ BEGIN
 
     SELECT SCOPE_IDENTITY() AS NewShavingsOrderId;
 END
-go
+GO
 
 -- פרוצדורה לעדכון הזמנת נסורת
-CREATE PROCEDURE UpdateShavingsOrder
+CREATE PROCEDURE dbo.UpdateShavingsOrder
     @ShavingsOrderId INT,
     @StallId         INT,
     @OrderDate       DATETIME,
@@ -306,10 +345,10 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 -- פרוצדורה למחיקת הזמנת נסורת
-CREATE PROCEDURE DeleteShavingsOrder
+CREATE PROCEDURE dbo.DeleteShavingsOrder
     @ShavingsOrderId INT
 AS
 BEGIN
@@ -318,18 +357,22 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 /* ======================================
    PAIDTIMES - פייד טיים
    ====================================== */
 
 -- פרוצדורה לקבלת כל הפייד טיים
-CREATE PROCEDURE GetAllPaidTimes
+CREATE PROCEDURE dbo.GetAllPaidTimes
 AS
 BEGIN
     SELECT 
         PT.PaidTimeId,
+        PT.CompetitionId,
+        PT.RiderId,
+        PT.HorseId,
+        PT.PayerId,
         PT.ArenaName,
         PT.Day,
         PT.SlotType,
@@ -345,15 +388,19 @@ BEGIN
     INNER JOIN Competitions C ON PT.CompetitionId = C.CompetitionId
     ORDER BY PT.PaidTimeId;
 END
-go
+GO
 
 -- פרוצדורה לקבלת כל הפייד טיים של משלם מסוים
-CREATE PROCEDURE GetPaidTimesByPayerName
+CREATE PROCEDURE dbo.GetPaidTimesByPayerName
     @PayerName NVARCHAR(100)
 AS
 BEGIN
     SELECT 
         PT.PaidTimeId,
+        PT.CompetitionId,
+        PT.RiderId,
+        PT.HorseId,
+        PT.PayerId,
         PT.ArenaName,
         PT.Day,
         PT.SlotType,
@@ -370,10 +417,10 @@ BEGIN
     WHERE P.PayerName = @PayerName
     ORDER BY PT.PaidTimeId;
 END
-go
+GO
 
 -- פרוצדורה להוספת פייד טיים
-CREATE PROCEDURE AddPaidTime
+CREATE PROCEDURE dbo.AddPaidTime
     @CompetitionId INT,
     @RiderId       INT,
     @HorseId       INT,
@@ -391,10 +438,10 @@ BEGIN
 
     SELECT SCOPE_IDENTITY() AS NewPaidTimeId;
 END
-go
+GO
 
 -- פרוצדורה לעדכון פייד טיים
-CREATE PROCEDURE UpdatePaidTime
+CREATE PROCEDURE dbo.UpdatePaidTime
     @PaidTimeId    INT,
     @CompetitionId INT,
     @RiderId       INT,
@@ -419,10 +466,10 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
 
 -- פרוצדורה למחיקת פייד טיים
-CREATE PROCEDURE DeletePaidTime
+CREATE PROCEDURE dbo.DeletePaidTime
     @PaidTimeId INT
 AS
 BEGIN
@@ -431,4 +478,4 @@ BEGIN
 
     SELECT @@ROWCOUNT AS RowsAffected;
 END
-go
+GO
