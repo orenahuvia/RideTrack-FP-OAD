@@ -2,5 +2,10 @@
 {
     public class Classes
     {
+        public int ClassId { get; set; }
+        public int CompetitionId { get; set; }
+        public DateTime ClassDay { get; set; }
+        public string ClassName { get; set; }
+        public double ClassPrice { get; set; }
     }
 }
