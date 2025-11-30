@@ -55,7 +55,59 @@ namespace RideTrack_FP_OAD.DAL
                 }
             }
 
-            public int AddStall(Stalls stall)
+        public List<Stalls> GetStallsByPayerName(string payerName)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@PayerName", payerName);
+
+            command = CreateCommandWithStoredProcedure("GetStallsByPayerName", connection, parmDic);
+
+            try
+            {
+                List<Stalls> stalls = new List<Stalls>();
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    stalls.Add(new Stalls
+                    {
+                        StallId = Convert.ToInt32(reader["StallId"]),
+                        CompetitionId = Convert.ToInt32(reader["CompetitionId"]),
+                        HorseId = Convert.ToInt32(reader["HorseId"]),
+                        PayerId = Convert.ToInt32(reader["PayerId"]),
+                        StallNumber = Convert.ToInt32(reader["StallNumber"]),
+                        ArrivalDate = Convert.ToDateTime(reader["ArrivalDate"]),
+                        DepartureDate = Convert.ToDateTime(reader["DepartureDate"]),
+                        DailyRate = Convert.ToDecimal(reader["DailyRate"]),
+                        TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
+                    });
+                }
+
+                return stalls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public int AddStall(Stalls stall)
             {
                 try
                 {
@@ -66,8 +118,7 @@ namespace RideTrack_FP_OAD.DAL
                     throw ex;
                 }
                 Dictionary<string, object> parmDic = new Dictionary<string, object>();
-                parmDic.Add(@"StallId", stall.StallId);
-                parmDic.Add("@Competition", stall.CompetitionId);
+                parmDic.Add("@CompetitionId", stall.CompetitionId);
                 parmDic.Add("@HorseId", stall.HorseId);
                 parmDic.Add("@PayerId", stall.PayerId);
                 parmDic.Add("@StallNumber", stall.StallNumber);
@@ -101,5 +152,97 @@ namespace RideTrack_FP_OAD.DAL
                     }
                 }
             }
+
+        public int UpdateStall(Stalls stall)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@StallId", stall.StallId);
+            parmDic.Add("@CompetitionId", stall.CompetitionId);
+            parmDic.Add("@HorseId", stall.HorseId);
+            parmDic.Add("@PayerId", stall.PayerId);
+            parmDic.Add("@StallNumber", stall.StallNumber);
+            parmDic.Add("@ArrivalDate", stall.ArrivalDate);
+            parmDic.Add("@DepartureDate", stall.DepartureDate);
+            parmDic.Add("@DailyRate", stall.DailyRate);
+            parmDic.Add("@TotalPrice", stall.TotalPrice);
+
+            command = CreateCommandWithStoredProcedure("UpdateStall", connection, parmDic);
+
+            try
+            {
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.Read())
+                {
+                    return Convert.ToInt32(reader["RowsAffected"]);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
         }
+
+
+        public int DeleteStall(int stallId)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@StallId", stallId);
+
+            command = CreateCommandWithStoredProcedure("DeleteStall", connection, parmDic);
+
+            try
+            {
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.Read())
+                {
+                    return Convert.ToInt32(reader["RowsAffected"]);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+    }
 }

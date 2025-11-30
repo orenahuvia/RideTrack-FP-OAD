@@ -62,7 +62,6 @@ namespace RideTrack_FP_OAD.DAL
                 throw ex;
             }
             Dictionary<string, object> parmDic = new Dictionary<string, object>();
-            parmDic.Add(@"ShavingsOrderId",shavingOrder.ShavingsOrderId);
             parmDic.Add("@RiderId", shavingOrder.StallId);
             parmDic.Add("@HorseId", shavingOrder.OrderDate);
             parmDic.Add("@PayerId", shavingOrder.BagsQuantity);

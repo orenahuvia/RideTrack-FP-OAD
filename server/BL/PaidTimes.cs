@@ -33,7 +33,7 @@ namespace RideTrack_FP_OAD.BL
 
         internal static int AddPaidTime(PaidTimes paidTimes)
         {
-            ValidatePaidTimeForSave(paidTimes);
+            ValidatePaidTime(paidTimes, requireId: false);
 
             PaidTimesDAL paidTimeDAL = new PaidTimesDAL();
             return paidTimeDAL.AddPaidTime(paidTimes);
@@ -41,12 +41,7 @@ namespace RideTrack_FP_OAD.BL
 
         internal static int UpdatePaidTime(PaidTimes paidTimes)
         {
-            if (paidTimes.PaidTimeId <= 0)
-            {
-                throw new ArgumentException("Invalid PaidTime ID.");
-            }
-
-            ValidatePaidTimeForSave(paidTimes);
+            ValidatePaidTime(paidTimes, requireId: true);
 
             PaidTimesDAL paidTimeDAL = new PaidTimesDAL();
             return paidTimeDAL.UpdatePaidTime(paidTimes);
@@ -63,52 +58,37 @@ namespace RideTrack_FP_OAD.BL
             return paidTimeDAL.DeletePaidTime(paidTimeId);
         }
 
-        private static void ValidatePaidTimeForSave(PaidTimes paidTimes)
+        private static void ValidatePaidTime(PaidTimes paidTimes, bool requireId)
         {
             if (paidTimes == null)
-            {
                 throw new ArgumentException("PaidTime data is required.");
-            }
+
+            if (requireId && paidTimes.PaidTimeId <= 0)
+                throw new ArgumentException("Invalid PaidTime ID.");
 
             if (paidTimes.CompetitionId <= 0)
-            {
                 throw new ArgumentException("Invalid Competition ID.");
-            }
 
             if (paidTimes.RiderId <= 0)
-            {
                 throw new ArgumentException("Invalid Rider ID.");
-            }
 
             if (paidTimes.HorseId <= 0)
-            {
                 throw new ArgumentException("Invalid Horse ID.");
-            }
 
             if (paidTimes.PayerId <= 0)
-            {
                 throw new ArgumentException("Invalid Payer ID.");
-            }
 
             if (string.IsNullOrWhiteSpace(paidTimes.ArenaName))
-            {
                 throw new ArgumentException("Arena name is required.");
-            }
 
             if (paidTimes.Day == default(DateTime))
-            {
                 throw new ArgumentException("Day is required.");
-            }
 
             if (string.IsNullOrWhiteSpace(paidTimes.SlotType))
-            {
                 throw new ArgumentException("Slot type is required.");
-            }
 
             if (paidTimes.Price < 0)
-            {
                 throw new ArgumentException("Price cannot be negative.");
-            }
         }
     }
 }

@@ -31,14 +31,14 @@ namespace RideTrack_FP_OAD.Controllers
 
                 if (entries.Count == 0)
                 {
-                    return NotFound(new { Message = $"No entries found for payer: {payerName}" });
+                    return NotFound($"No entries found for payer: {payerName}");
                 }
 
                 return Ok(entries);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -63,7 +63,7 @@ namespace RideTrack_FP_OAD.Controllers
             { 
                 if (entry == null)
                 {
-                    return BadRequest(new { Error = "Entry data is required" });
+                    return BadRequest("Entry data is required");
                 }
 
                 int rowsAffected = Entries.UpdateEntry(entry);
@@ -86,12 +86,12 @@ namespace RideTrack_FP_OAD.Controllers
                 }
                 else
                 {
-                    return NotFound(new { Error = "Entry not found or no changes were made" });
+                    return NotFound("Entry not found or no changes were made");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -113,12 +113,12 @@ namespace RideTrack_FP_OAD.Controllers
                 }
                 else
                 {
-                    return NotFound(new { Error = $"Entry with ID {Id} not found" });
+                    return NotFound($"Entry with ID {Id} not found");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
