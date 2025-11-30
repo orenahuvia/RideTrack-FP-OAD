@@ -41,32 +41,15 @@ namespace RideTrack_FP_OAD.BL
 
         internal static int AddEntry(Entries entry)
         {
+            ValidateEntry(entry, requireId: false);
+
             EntriesDAL entriesDAL = new EntriesDAL();
             return entriesDAL.AddEntry(entry);
         }
 
         internal static int UpdateEntry(Entries entry)
         {
-            if (entry.EntryId <= 0)
-            {
-                throw new ArgumentException("Invalid Entry ID");
-            }
-            if (entry.RiderId <= 0)
-            {
-                throw new ArgumentException("Invalid Rider ID");
-            }
-            if (entry.HorseId <= 0)
-            {
-                throw new ArgumentException("Invalid Horse ID");
-            }
-            if (entry.PayerId <= 0)
-            {
-                throw new ArgumentException("Invalid Payer ID");
-            }
-            if (entry.ClassId <= 0)
-            {
-                throw new ArgumentException("Invalid Class ID");
-            }
+            ValidateEntry(entry, requireId: true);
 
             EntriesDAL entriesDAL = new EntriesDAL();
             return entriesDAL.UpdateEntry(entry);
@@ -75,11 +58,31 @@ namespace RideTrack_FP_OAD.BL
         internal static int DeleteEntry(int entryId)
         {
             if (entryId <= 0)
-            {
                 throw new ArgumentException("Entry ID must be greater than 0");
-            }
+
             EntriesDAL entriesDAL = new EntriesDAL();
             return entriesDAL.DeleteEntry(entryId);
+        }
+
+        private static void ValidateEntry(Entries entry, bool requireId)
+        {
+            if (entry == null)
+                throw new ArgumentException("Entry data is required");
+
+            if (requireId && entry.EntryId <= 0)
+                throw new ArgumentException("Invalid Entry ID");
+
+            if (entry.RiderId <= 0)
+                throw new ArgumentException("Invalid Rider ID");
+
+            if (entry.HorseId <= 0)
+                throw new ArgumentException("Invalid Horse ID");
+
+            if (entry.PayerId <= 0)
+                throw new ArgumentException("Invalid Payer ID");
+
+            if (entry.ClassId <= 0)
+                throw new ArgumentException("Invalid Class ID");
         }
     }
 }

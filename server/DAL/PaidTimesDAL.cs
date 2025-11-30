@@ -65,7 +65,6 @@ namespace RideTrack_FP_OAD.DAL
                 throw ex;
             }
             Dictionary<string, object> parmDic = new Dictionary<string, object>();
-            parmDic.Add(@"PaidTimeId", paidTimes.PaidTimeId);
             parmDic.Add(@"RiderId", paidTimes.RiderId);
             parmDic.Add(@"HorseId", paidTimes.HorseId);
             parmDic.Add(@"PayerId", paidTimes.PayerId);
@@ -100,5 +99,142 @@ namespace RideTrack_FP_OAD.DAL
                 }
             }
         }
+
+        public List<PaidTimes> GetPaidTimesByPayerName(string payerName)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@PayerName", payerName);
+
+            command = CreateCommandWithStoredProcedure("GetPaidTimesByPayerName", connection, parmDic);
+
+            try
+            {
+                List<PaidTimes> paidtimes = new List<PaidTimes>();
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    paidtimes.Add(new PaidTimes
+                    {
+                        PaidTimeId = Convert.ToInt32(reader["PaidTimeId"]),
+                        CompetitionId = Convert.ToInt32(reader["CompetitionId"]),
+                        RiderId = Convert.ToInt32(reader["RiderId"]),
+                        HorseId = Convert.ToInt32(reader["HorseId"]),
+                        PayerId = Convert.ToInt32(reader["PayerId"]),
+                        ArenaName = reader["ArenaName"].ToString(),
+                        Day = Convert.ToDateTime(reader["Day"]),
+                        SlotType = reader["SlotType"].ToString(),
+                        Price = Convert.ToDecimal(reader["Price"])
+                    });
+                }
+
+                return paidtimes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+        }
+
+        public int UpdatePaidTime(PaidTimes paidTimes)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@PaidTimeId", paidTimes.PaidTimeId);
+            parmDic.Add("@CompetitionId", paidTimes.CompetitionId);
+            parmDic.Add("@RiderId", paidTimes.RiderId);
+            parmDic.Add("@HorseId", paidTimes.HorseId);
+            parmDic.Add("@PayerId", paidTimes.PayerId);
+            parmDic.Add("@ArenaName", paidTimes.ArenaName);
+            parmDic.Add("@Day", paidTimes.Day);
+            parmDic.Add("@SlotType", paidTimes.SlotType);
+            parmDic.Add("@Price", paidTimes.Price);
+
+            command = CreateCommandWithStoredProcedure("UpdatePaidTime", connection, parmDic);
+
+            try
+            {
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.Read())
+                {
+                    return Convert.ToInt32(reader["RowsAffected"]);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+        }
+
+        public int DeletePaidTime(int paidTimeId)
+        {
+            try
+            {
+                connection = Connect("DefaultConnection");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            Dictionary<string, object> parmDic = new Dictionary<string, object>();
+            parmDic.Add("@PaidTimeId", paidTimeId);
+
+            command = CreateCommandWithStoredProcedure("DeletePaidTime", connection, parmDic);
+
+            try
+            {
+                reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.Read())
+                {
+                    return Convert.ToInt32(reader["RowsAffected"]);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+        }
+
     }
 }

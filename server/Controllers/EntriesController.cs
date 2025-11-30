@@ -22,20 +22,6 @@ namespace RideTrack_FP_OAD.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] Entries entry)
-        {
-            try
-            {
-                int res = Entries.AddEntry(entry);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet("bypayer/{payerName}")]
         public IActionResult GetByPayerName(string payerName)
         {
@@ -53,6 +39,20 @@ namespace RideTrack_FP_OAD.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Entries entry)
+        {
+            try
+            {
+                int res = Entries.AddEntry(entry);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
