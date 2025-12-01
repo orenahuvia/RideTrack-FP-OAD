@@ -1,0 +1,494 @@
+/* ================================================
+   RideTrack - Responsive Styles
+   עיצוב רספונסיבי לכל המסכים
+   ================================================ */
+
+/* ================================================
+   TABLET (מסכים עד 992px)
+   ================================================ */
+@media (max-width: 992px) {
+    
+    /* Typography */
+    :root {
+        --font-size-3xl: 2.5rem;
+        --font-size-2xl: 1.75rem;
+    }
+    
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    /* Header */
+    .header-content {
+        padding: var(--spacing-md) 0;
+        position: relative;
+    }
+    
+    .logo h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+    
+    .main-nav {
+        position: static;
+    }
+    
+    .main-nav .nav-list {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        left: 0;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+        box-shadow: var(--shadow-lg);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .main-nav.active .nav-list {
+        max-height: 500px;
+        opacity: 1;
+        padding: var(--spacing-md);
+    }
+    
+    .nav-link {
+        width: 100%;
+        padding: var(--spacing-md);
+        justify-content: center;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    .nav-link:hover,
+    .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Hero */
+    .hero-section {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Section Header */
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .section-title {
+        justify-content: center;
+    }
+    
+    /* Filters */
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        min-width: 100%;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-xs);
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+    
+    /* Data Grid */
+    .data-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    
+    /* Modal */
+    .modal-content {
+        max-width: 90%;
+    }
+    
+    .modal-body {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+/* ================================================
+   MOBILE (מסכים עד 768px)
+   ================================================ */
+@media (max-width: 768px) {
+    
+    /* Typography */
+    :root {
+        --font-size-3xl: 2rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-xl: 1.25rem;
+    }
+    
+    /* Spacing */
+    .main-content {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    /* Logo */
+    .logo i {
+        font-size: 2rem;
+    }
+    
+    .logo h1 {
+        font-size: var(--font-size-lg);
+    }
+    
+    /* Hero */
+    .hero-title-main {
+        font-size: 2rem;
+    }
+    
+    .hero-title-sub {
+        font-size: 1rem;
+    }
+    
+    .hero-description {
+        font-size: var(--font-size-base);
+    }
+    
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-md);
+    }
+    
+    .stat-card i {
+        font-size: 2rem;
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-2xl);
+    }
+    
+    /* Section Header */
+    .section-title {
+        font-size: var(--font-size-xl);
+        gap: var(--spacing-sm);
+    }
+    
+    /* Buttons */
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .filters-container .btn {
+        width: 100%;
+    }
+    
+    /* Data Grid */
+    .data-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .card-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .card-footer {
+        flex-direction: column;
+    }
+    
+    .card-footer .btn {
+        width: 100%;
+    }
+    
+    /* Forms */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+    }
+    
+    /* Modal */
+    .modal {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-content {
+        max-width: 100%;
+    }
+    
+    .modal-body {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-title {
+        font-size: var(--font-size-xl);
+    }
+    
+    /* Toast */
+    .toast-container {
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        top: var(--spacing-sm);
+        max-width: 100%;
+    }
+    
+    /* WhatsApp Button */
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);  /* ✅ RIGHT גם במובייל */
+    }
+    
+    .whatsapp-float .whatsapp-text {
+        display: none;
+    }
+}
+
+/* ================================================
+   SMALL MOBILE (מסכים עד 480px)
+   ================================================ */
+@media (max-width: 480px) {
+    
+    /* Typography */
+    :root {
+        --font-size-3xl: 1.75rem;
+        --font-size-2xl: 1.25rem;
+    }
+    
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    /* Hero */
+    .hero-section {
+        padding: var(--spacing-md) 0;
+    }
+    
+    .hero-content {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .hero-title {
+        gap: var(--spacing-sm);
+    }
+    
+    .hero-title-main {
+        font-size: 1.5rem;
+    }
+    
+    .hero-title-sub {
+        font-size: 0.875rem;
+    }
+    
+    .hero-description {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-sm);
+    }
+    
+    /* Section */
+    .section-header {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    /* Filters */
+    .filters-container {
+        padding: var(--spacing-sm);
+    }
+    
+    /* Cards */
+    .data-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .card-title {
+        font-size: var(--font-size-base);
+    }
+    
+    .info-label,
+    .info-value {
+        font-size: var(--font-size-sm);
+    }
+    
+    /* Empty State */
+    .empty-state {
+        padding: var(--spacing-lg);
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+    }
+    
+    /* Modal */
+    .modal-close {
+        width: 30px;
+        height: 30px;
+        top: var(--spacing-sm);
+        left: var(--spacing-sm);
+    }
+}
+
+/* ================================================
+   LANDSCAPE ORIENTATION (נוף)
+   ================================================ */
+@media (max-height: 600px) and (orientation: landscape) {
+    
+    .hero-section {
+        padding: var(--spacing-md) 0;
+    }
+    
+    .hero-stats {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .modal-content {
+        max-height: 85vh;
+    }
+}
+
+/* ================================================
+   PRINT STYLES
+   ================================================ */
+@media print {
+    
+    .main-header,
+    .main-nav,
+    .hero-section,
+    .filters-container,
+    .btn,
+    .whatsapp-float,
+    .main-footer,
+    .modal,
+    .toast-container {
+        display: none !important;
+    }
+    
+    .data-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    body {
+        background-color: white;
+    }
+}
+
+/* ================================================
+   REDUCED MOTION (נגישות)
+   ================================================ */
+@media (prefers-reduced-motion: reduce) {
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ================================================
+   HIGH CONTRAST MODE (נגישות)
+   ================================================ */
+@media (prefers-contrast: high) {
+    
+    :root {
+        --primary-color: #000000;
+        --secondary-color: #333333;
+        --accent-color: #FFD700;
+        --background-color: #FFFFFF;
+        --text-primary: #000000;
+        --border-color: #000000;
+    }
+    
+    .btn,
+    .data-card,
+    .form-input,
+    .form-select {
+        border-width: 2px;
+    }
+}
+
+/* ================================================
+   DARK MODE (מצב כהה)
+   ================================================ */
+@media (prefers-color-scheme: dark) {
+    
+    :root {
+        --background-color: #1A1410;
+        --surface-color: #2C1810;
+        --text-primary: #F5E6D3;
+        --text-secondary: #C4B5A7;
+        --border-color: #3D2820;
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, 
+            #1A1410 0%, 
+            #2C1810 50%, 
+            #3D2820 100%);
+    }
+    
+    .data-card {
+        background-color: var(--surface-color);
+    }
+    
+    .form-input,
+    .form-select,
+    .search-input {
+        background-color: var(--surface-color);
+        color: var(--text-primary);
+    }
+    
+    .modal-content {
+        background-color: var(--surface-color);
+    }
+}

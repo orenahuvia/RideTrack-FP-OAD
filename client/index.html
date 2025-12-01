@@ -1,9 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ride Track</title>
-  </head>
-  <body></body>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="מערכת ניהול תחרויות רכיבה - RideTrack">
+    <title>RideTrack - ניהול תחרויות סוסים</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+    
+    <a href="https://wa.me/972546788443?text=שלום, אני צריך עזרה עם מערכת RideTrack" 
+       class="whatsapp-float" 
+       target="_blank"
+       aria-label="צור קשר בווצאפ">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-text">לעזרה ומידע נוסף</span>
+    </a>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-horse-head"></i>
+            <p>טוען נתונים...</p>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-horse-head"></i>
+                    <h1>RideTrack</h1>
+                </div>
+                <nav class="main-nav" id="mainNav">
+                    <button class="nav-toggle" id="navToggle" aria-label="תפריט">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-list">
+                        <li><a href="#entries" class="nav-link active"><i class="fas fa-list"></i> הרשמות</a></li>
+                        <li><a href="#stalls" class="nav-link"><i class="fas fa-warehouse"></i> תאים</a></li>
+                        <li><a href="#shavings" class="nav-link"><i class="fas fa-box"></i> נסורת</a></li>
+                        <li><a href="#paidtimes" class="nav-link"><i class="fas fa-clock"></i> פייד טיים</a></li>
+                        <li><a href="#reports" class="nav-link"><i class="fas fa-chart-bar"></i> דוחות</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">
+                    <span class="hero-title-main">ברוכים הבאים ל-RideTrack</span>
+                    <span class="hero-title-sub">מערכת ניהול תחרויות רכיבה מתקדמת</span>
+                </h2>
+                <p class="hero-description">
+                    נהל את כל הרשמות המקצים, התאים, הזמנות הנסורת ופייד טיים במקום אחד
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span class="stat-number" data-target="0" id="totalEntries">0</span>
+                        <span class="stat-label">הרשמות</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-warehouse"></i>
+                        <span class="stat-number" data-target="0" id="totalStalls">0</span>
+                        <span class="stat-label">תאים</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-box-open"></i>
+                        <span class="stat-number" data-target="0" id="totalShavings">0</span>
+                        <span class="stat-label">הזמנות</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-stopwatch"></i>
+                        <span class="stat-number" data-target="0" id="totalPaidTimes">0</span>
+                        <span class="stat-label">פייד טיים</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <section id="entries" class="content-section active">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        ניהול הרשמות למקצים
+                    </h2>
+                    <button class="btn btn-primary" id="addEntryBtn">
+                        <i class="fas fa-plus"></i>
+                        הוספת הרשמה
+                    </button>
+                </div>
+
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               id="searchEntries" 
+                               placeholder="חפש לפי שם רוכב, סוס או משלם..."
+                               class="search-input">
+                        <button class="search-clear" id="clearEntriesSearch">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterByPayer">סינון לפי משלם:</label>
+                        <select id="filterByPayer" class="filter-select">
+                            <option value="">כל המשלמים</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-secondary" id="refreshEntries">
+                        <i class="fas fa-sync-alt"></i>
+                        רענן
+                    </button>
+                </div>
+
+                <div class="data-grid" id="entriesGrid">
+                    
+                </div>
+
+                <div class="empty-state" id="entriesEmptyState" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>אין הרשמות להצגה</h3>
+                    <p>לחץ על "הוספת הרשמה" כדי להתחיל</p>
+                </div>
+
+                <div class="loading-state" id="entriesLoadingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>טוען הרשמות...</p>
+                </div>
+            </section>
+
+            <section id="stalls" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-warehouse"></i>
+                        ניהול תאים
+                    </h2>
+                    <button class="btn btn-primary" id="addStallBtn">
+                        <i class="fas fa-plus"></i>
+                        הוספת תא
+                    </button>
+                </div>
+
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               id="searchStalls" 
+                               placeholder="חפש תא..."
+                               class="search-input">
+                    </div>
+                    <button class="btn btn-secondary" id="refreshStalls">
+                        <i class="fas fa-sync-alt"></i>
+                        רענן
+                    </button>
+                </div>
+
+                <div class="data-grid" id="stallsGrid"></div>
+                <div class="empty-state" id="stallsEmptyState" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>אין תאים להצגה</h3>
+                </div>
+            </section>
+
+            <section id="shavings" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-box-open"></i>
+                        הזמנות נסורת
+                    </h2>
+                    <button class="btn btn-primary" id="addShavingBtn">
+                        <i class="fas fa-plus"></i>
+                        הזמנה חדשה
+                    </button>
+                </div>
+
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               id="searchShavings" 
+                               placeholder="חפש הזמנה..."
+                               class="search-input">
+                    </div>
+                    <button class="btn btn-secondary" id="refreshShavings">
+                        <i class="fas fa-sync-alt"></i>
+                        רענן
+                    </button>
+                </div>
+
+                <div class="data-grid" id="shavingsGrid"></div>
+                <div class="empty-state" id="shavingsEmptyState" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>אין הזמנות להצגה</h3>
+                </div>
+            </section>
+
+            <section id="paidtimes" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-stopwatch"></i>
+                        פייד טיים
+                    </h2>
+                    <button class="btn btn-primary" id="addPaidTimeBtn">
+                        <i class="fas fa-plus"></i>
+                        הוספת פייד טיים
+                    </button>
+                </div>
+
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               id="searchPaidTimes" 
+                               placeholder="חפש פייד טיים..."
+                               class="search-input">
+                    </div>
+                    <button class="btn btn-secondary" id="refreshPaidTimes">
+                        <i class="fas fa-sync-alt"></i>
+                        רענן
+                    </button>
+                </div>
+
+                <div class="data-grid" id="paidTimesGrid"></div>
+                <div class="empty-state" id="paidTimesEmptyState" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>אין פייד טיים להצגה</h3>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div class="modal" id="mainModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>RideTrack</h3>
+                    <p>מערכת ניהול תחרויות רכיבה מתקדמת</p>
+                </div>
+                <div class="footer-section">
+                    <h4>קישורים מהירים</h4>
+                    <ul>
+                        <li><a href="#entries">הרשמות</a></li>
+                        <li><a href="#stalls">תאים</a></li>
+                        <li><a href="#shavings">נסורת</a></li>
+                        <li><a href="#paidtimes">פייד טיים</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>צור קשר</h4>
+                    <p>
+                        <i class="fab fa-whatsapp"></i>
+                        <a href="https://wa.me/972501234567">050-123-4567</a>
+                    </p>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        <a href="/cdn-cgi/l/email-protection#442d2a222b04362d2021303625272f6a272b29"><span class="__cf_email__" data-cfemail="355c5b535a75475c5150414754565e1b565a58">[email&#160;protected]</span></a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RideTrack. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/entries.js"></script>
+    <script src="scripts/stalls.js"></script>
+    <script src="scripts/shavingsOrders.js"></script>
+    <script src="scripts/paidTimes.js"></script>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/index.js"></script>
+</body>
 </html>
