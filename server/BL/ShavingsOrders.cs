@@ -6,6 +6,7 @@ namespace RideTrack_FP_OAD.BL
     {
         public int ShavingsOrderId { get; set; }
         public int StallId { get; set; }
+        public int? StallNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public int BagsQuantity { get; set; }
         public string? CompetitionName { get; set; }

@@ -8,7 +8,7 @@ namespace RideTrack_FP_OAD.BL
         public int CompetitionId { get; set; }
         public int HorseId { get; set; }
         public int PayerId { get; set; }
-        public int StallNumber { get; set; }
+        public int? StallNumber { get; set; }
         public DateTime ArrivalDate { get; set; }
         public DateTime DepartureDate { get; set; }
         public string? CompetitionName { get; set; }
