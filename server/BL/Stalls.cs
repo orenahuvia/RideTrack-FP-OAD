@@ -11,6 +11,9 @@ namespace RideTrack_FP_OAD.BL
         public int StallNumber { get; set; }
         public DateTime ArrivalDate { get; set; }
         public DateTime DepartureDate { get; set; }
+        public string? CompetitionName { get; set; }
+        public string? HorseName { get; set; }
+        public string? PayerName { get; set; }
         public Decimal? DailyRate { get; set; }
         public Decimal? TotalPrice { get; set; }
         internal static List<Stalls> GetAllStalls()

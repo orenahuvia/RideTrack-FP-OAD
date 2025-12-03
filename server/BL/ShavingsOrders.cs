@@ -8,6 +8,9 @@ namespace RideTrack_FP_OAD.BL
         public int StallId { get; set; }
         public DateTime OrderDate { get; set; }
         public int BagsQuantity { get; set; }
+        public string? CompetitionName { get; set; }
+        public string? HorseName { get; set; }
+        public string? PayerName { get; set; }
         public decimal? PricePerBag { get; set; }
         public decimal? TotalPrice { get; set; }
 
