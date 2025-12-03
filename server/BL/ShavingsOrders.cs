@@ -8,8 +8,8 @@ namespace RideTrack_FP_OAD.BL
         public int StallId { get; set; }
         public DateTime OrderDate { get; set; }
         public int BagsQuantity { get; set; }
-        public decimal PricePerBag { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal? PricePerBag { get; set; }
+        public decimal? TotalPrice { get; set; }
 
         internal static List<ShavingsOrders> GetAllShavingsOrders()
         {
