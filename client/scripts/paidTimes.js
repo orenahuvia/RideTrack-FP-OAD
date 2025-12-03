@@ -72,6 +72,10 @@ const paidTimes = {
         const type = paidTime.slotType || paidTime.SlotType;
         const date = paidTime.day || paidTime.Day;
         const price = paidTime.price || paidTime.Price;
+        const compName = paidTime.competitionName || paidTime.CompetitionName || 'N/A';
+        const rName = paidTime.riderName || paidTime.RiderName || 'N/A';
+        const hName = paidTime.horseName || paidTime.HorseName || 'N/A';
+        const pName = paidTime.payerName || paidTime.PayerName || 'N/A';
 
         const slotTypeDisplay = type === 'Short' ? 'קצר' : 'ארוך';
         const badgeClass = type === 'Short' ? 'badge-warning' : 'badge-info';
@@ -91,19 +95,19 @@ const paidTimes = {
                     <div class="card-info">
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-trophy"></i> תחרות:</span>
-                            <span class="info-value">#${compId}</span>
+                            <span class="info-value">${compName}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-user"></i> רוכב:</span>
-                            <span class="info-value">#${rId}</span>
+                            <span class="info-value">${rName}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-horse"></i> סוס:</span>
-                            <span class="info-value">#${hId}</span>
+                            <span class="info-value">${hName}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-user-tie"></i> משלם:</span>
-                            <span class="info-value">#${pId}</span>
+                            <span class="info-value">${pName}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-calendar"></i> תאריך:</span>
