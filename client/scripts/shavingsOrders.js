@@ -59,6 +59,8 @@ const shavingsOrders = {
         const qty = order.bagsQuantity || order.BagsQuantity;
         const price = order.pricePerBag || order.PricePerBag;
         const total = order.totalPrice || order.TotalPrice;
+        const pName = order.payerName || order.PayerName || 'N/A';
+
 
         return `
             <div class="data-card" data-order-id="${id}">
@@ -78,6 +80,10 @@ const shavingsOrders = {
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-calendar"></i> תאריך הזמנה:</span>
                             <span class="info-value">${typeof DateUtils !== 'undefined' ? DateUtils.formatDateTime(date) : date}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="fas fa-user-tie"></i> משלם:</span>
+                            <span class="info-value">${pName}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="fas fa-box"></i> כמות:</span>
@@ -183,6 +189,8 @@ const shavingsOrders = {
         const qty = order.bagsQuantity || order.BagsQuantity;
         const price = order.pricePerBag || order.PricePerBag;
         const total = order.totalPrice || order.TotalPrice;
+        const pName = paidTime.payerName || paidTime.PayerName || 'N/A';
+
 
         const formContent = `
             <form id="shavingsEditForm" class="modal-form">
