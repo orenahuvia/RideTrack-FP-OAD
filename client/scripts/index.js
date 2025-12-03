@@ -4,11 +4,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupNavigation();
 
     setupModalHandlers();
+    setupMobileNav(); 
 
-    // 1. טעינת נתונים ראשונית לדשבורד (Eager Loading)
+    if (typeof entries !== 'undefined') entries.init();
+    if (typeof stalls !== 'undefined') stalls.init();
+    if (typeof shavingsOrders !== 'undefined') shavingsOrders.init();
+    if (typeof paidTimes !== 'undefined') paidTimes.init();
+
     await updateDashboardCounts();
 
-    // 2. טעינת הסקשן הראשון (הטבלה התחתונה)
+
     await loadSection('entries');
 
     if (typeof entries !== 'undefined') {
