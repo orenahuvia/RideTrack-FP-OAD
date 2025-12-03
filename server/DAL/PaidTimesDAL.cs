@@ -37,7 +37,10 @@ namespace RideTrack_FP_OAD.DAL
                         Day = Convert.ToDateTime(reader["Day"]),
                         SlotType = reader["SlotType"].ToString(),
                         Price = Convert.ToDecimal(reader["Price"]),
-                        });
+                        CompetitionName = reader["CompetitionName"] != DBNull.Value ? reader["CompetitionName"].ToString() : null,
+                        HorseName = reader["HorseName"] != DBNull.Value ? reader["HorseName"].ToString() : null,
+                        PayerName = reader["PayerName"] != DBNull.Value ? reader["PayerName"].ToString() : null
+                    });
                 }
                 return paidtimes;
             }
